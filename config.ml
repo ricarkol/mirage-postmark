@@ -7,7 +7,7 @@ let config_shell = impl @@ object
     inherit base_configurable
 
     method build _i =
-      Bos.OS.Cmd.run Bos.Cmd.(v "dd" % "if=/dev/zero" % "of=disk.img" % "count=1000000");
+      Bos.OS.Cmd.run Bos.Cmd.(v "dd" % "if=/dev/zero" % "of=disk.img" % "count=100000");
       Bos.OS.Cmd.run Bos.Cmd.(v "mkfs.fat" % "disk.img");
 
     method clean _i =
@@ -20,7 +20,7 @@ end
 
 
 let main =
-  let packages = [ package "io-page"; package "duration"; package ~build:true "bos"; package ~build:true "fpath"; package "fat-filesystem" ] in
+  let packages = [ package "duration"; package "fat-filesystem" ] in
   foreign
     ~packages
     ~deps:[abstract config_shell] "Unikernel.Main" (time @-> block @-> job)
